@@ -2,14 +2,58 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Canvas Template</title>
+    <title>Pixelperfect clicks</title>
     <style>
+        html, body, .container{
+          width: 100vw;
+          height: 100vh;
+          overflow: hidden;
+        }
         body {
             margin: 0;
         }
+        .main, .container{
+          display: -webkit-flex;
+          display: -ms-flex;
+          display: flex;
+          -webkit-flex-direction: column;
+          -ms-flex-direction: column;
+          flex-direction: column;
+          justify-content: center;
+          -ms-align-items: center;
+          align-items: center;
+        }
+        .main{
+          -webkit-flex-direction: row;
+          -ms-flex-direction: row;
+          flex-direction: row;
+        }
+        .markdown{
+          display: block;
+        }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css">
 </head>
 <body>
-    <canvas></canvas>
-<script type="text/javascript" src="./js/canvas.bundle.js"></script></body>
+    <div class="main">
+      <div class="container">
+        <h1>Pixelperfect clicks</h1>
+        <canvas></canvas>
+      </div>
+      <div class="container">
+        <h1>1 Step</h1>
+        <div markdown="1">
+          Test
+          ```
+          Test
+          ```
+        </div>
+      </div>
+    </div>
+    <img id="img-z" src="assets/z.png" alt="z">
+    <img id="img-bed" src="assets/bed.png" alt="bed">
+    <img id="img-table" src="assets/table.png" alt="table">
+    <script src='  https://cdn.rawgit.com/showdownjs/showdown/1.8.6/dist/showdown.min.js
+'></script>
+<script type="text/javascript" src="./js/bundle.js"></script></body>
 </html>
