@@ -130,12 +130,37 @@ var Main = function () {
 
     this.sprites = [new _Sprite2.default(100, 100, this.imgs.bed), new _Sprite2.default(52, 146, this.imgs.table), new _Sprite2.default(80, 135, this.imgs.z)];
 
-    setTimeout(function () {
+    this.inputCanvas = document.createElement('canvas');
+    this.inputCanvas.width = this.canvas.width;
+    this.inputCanvas.height = this.canvas.width;
+    this.inputCanvasCtx = this.inputCanvas.getContext('2d');
+
+    this.clicked = "Nothing :(";
+
+    this.canvas.addEventListener('click', function (event) {
+      var color = _this.inputCanvasCtx.getImageData(event.layerX, event.layerY, 1, 1).data;
+      var hexColor = ("000000" + _this.rgbToHex(color[0], color[1], color[2])).slice(-6);
+
+      console.log('Youjust clicked on color #' + hexColor);
+
+      var sprite = _this.sprites.filter(function (sprite) {
+        return sprite.id === hexColor;
+      });
+      _this.clicked = sprite[0].name;
+    });
+
+    setInterval(function () {
       return _this.render();
     }, 1000 / 30);
   }
 
   _createClass(Main, [{
+    key: 'rgbToHex',
+    value: function rgbToHex(r, g, b) {
+      if (r > 255 || g > 255 || b > 255) throw "Invalid color component";
+      return (r << 16 | g << 8 | b).toString(16);
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -144,8 +169,13 @@ var Main = function () {
       this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
       this.sprites.forEach(function (sprite) {
-        return sprite.render(_this2.ctx);
+        sprite.render(_this2.ctx);
+        sprite.renderColor(_this2.inputCanvasCtx);
       });
+
+      this.ctx.fillStyle = "#EEF";
+      this.ctx.font = "14px sans-serif";
+      this.ctx.fillText("You clicked on: " + this.clicked, 15, 20);
     }
   }]);
 
@@ -181,12 +211,28 @@ var Sprite = function () {
     this.x = x;
     this.y = y;
     this.img = img;
+    this.name = this.img.id.replace('img-', '');
+    this.id = Math.floor(Math.random() * 16777215).toString(16);
+    console.log("Created '" + this.name + "' with color #" + this.id);
   }
 
   _createClass(Sprite, [{
-    key: "render",
+    key: 'render',
     value: function render(ctx) {
       ctx.drawImage(this.img, this.x, this.y);
+    }
+  }, {
+    key: 'renderColor',
+    value: function renderColor(ctx) {
+      var buffer = document.createElement('canvas');
+      buffer.width = this.img.width;
+      buffer.height = this.img.height;
+      var bx = buffer.getContext('2d');
+      bx.fillStyle = '#' + this.id;
+      bx.fillRect(0, 0, buffer.width, buffer.height);
+      bx.globalCompositeOperation = "destination-atop";
+      bx.drawImage(this.img, 0, 0);
+      ctx.drawImage(buffer, this.x, this.y);
     }
   }]);
 
@@ -215,9 +261,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 document.addEventListener("DOMContentLoaded", function (event) {
   new _Main2.default();
-  var converter = new showdown.Converter();
   var markdownContainer = document.querySelector('#markdown');
+  var converter = new showdown.Converter();
   markdownContainer.innerHTML = converter.makeHtml(markdownContainer.textContent.replace(/(?:\r\n|\r|\n)/g, '\n'));
+  hljs.initHighlightingOnLoad();
 });
 
 /***/ })
