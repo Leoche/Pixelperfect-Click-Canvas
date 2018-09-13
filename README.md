@@ -12,7 +12,7 @@ Tada! Real pixel perfect inputs!
 
 I took 3 sprites.
 
-![ill0](assets/ill0.png)
+![ill0](docs/assets/ill0.png)
 
 So Basically here, we have a `Main` class which have an `Array` of Sprite(x, y, img) instances:
 ```javascript
@@ -56,7 +56,7 @@ render () {
 
 Result:
 
-![ill1](assets/ill1.png)
+![ill1](docs/assets/ill1.png)
 
 
 
@@ -80,7 +80,7 @@ constructor(x, y, img) {
 
 Console returns
 
-![ill3](assets/ill3.png)
+![ill3](docs/assets/ill3.png)
 
 Now we want to create a method `renderColor` with a canvas buffer, So we just need to create a canvas with img sizes, fill with generated color then drawImage with `destination-atop` composition.
 ```javascript
@@ -109,7 +109,7 @@ render () {
 ```
 Which give us this result:
 
-![ill2](assets/ill2.png)
+![ill2](docs/assets/ill2.png)
 
 Create a global buffer for all this color sprites in Main constructor and render color sprites to it instead of the real canvas
 
@@ -163,7 +163,7 @@ rgbToHex(r, g, b) {
 
 Console returns
 
-![ill4](assets/ill4.png)
+![ill4](docs/assets/ill4.png)
 
 You now have your clicked Sprite!
 
